@@ -43,11 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiRequest.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AuthenticateForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AuthenticateForm.Designer.cs">
       <DependentUpon>AuthenticateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiRequest.Private.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
