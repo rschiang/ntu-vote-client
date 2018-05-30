@@ -78,10 +78,10 @@ namespace NTUOSC.Vote
             UpdateTimer();
         }
 
-        protected virtual void UpdateTimer() {
+        public virtual void UpdateTimer() {
             if (_state == States.InUse) {
                 TimeSpan delta = DateTime.Now - LastUpdated;
-                timerLabel.Text = delta;
+                timerLabel.Text = ((int)delta.TotalSeconds).ToString();
                 this.BackColor = (delta.TotalSeconds > 120) ? Color.Salmon : Color.LightGreen;
             } else
                 this.BackColor = (_state == States.Offline) ? Color.LightGray : Color.WhiteSmoke;

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
@@ -17,31 +18,53 @@ namespace NTUOSC.Vote
         private ApiClient pingApiClient;
         private ApiClient authApiClient;
         private BoothPanel[] boothPanels;
+        private int pingCounter = 0;
 
         public MainForm()
         {
             InitializeComponent();
 
             pingApiClient = new ApiClient();
-            pingApiClient.UploadValuesCompleted += OnPingCompleted;
+            pingApiClient.DownloadDataCompleted += OnPingCompleted;
 
             authApiClient = new ApiClient();
             authApiClient.UploadValuesCompleted += OnAuthCompleted;
 
             this.FormClosing += OnThisFormClosing;
             scanButton.Click += OnScanButtonClick;
+
+            pingTimer.Interval -= new Random().Next(100);
+            pingTimer.Tick += OnTimerTick;
+            pingTimer.Start();
+
+            pingApiClient.SendRequestAsync("account/booth");
         }
 
-        protected void OnPingCompleted(object sender, UploadValuesCompletedEventArgs e)
+        protected void OnTimerTick(object sender, EventArgs e)
+        {
+            pingCounter = (pingCounter + 1) % 5;
+            if (pingCounter == 1) {
+                if (pingApiClient.IsBusy) pingApiClient.CancelAsync();
+                if (networkStatusLabel.Text != "線上")
+                    networkStatusLabel.Text = "正在連線";
+                pingApiClient.SendRequestAsync("account/booth");
+            }
+
+            if (boothPanels != null)
+                foreach (BoothPanel panel in boothPanels)
+                    panel.UpdateTimer();
+        }
+
+        protected void OnPingCompleted(object sender, DownloadDataCompletedEventArgs e)
         {
             if (e.Error != null) {
-                Program.Log(e);
+                Program.Log(e.Error);
                 networkStatusLabel.Text = "斷線";
             } else {
                 networkStatusLabel.Text = "線上";
 
                 // Parse and load the reply
-                JObject entity = ApiClient.ParseJson(e.Reply);
+                JObject entity = ApiClient.ParseJson(e.Result);
 
                 string status = (string) entity["election"];
                 switch (status) {
@@ -55,7 +78,7 @@ namespace NTUOSC.Vote
                         electionStatusLabel.Text = "尚未開始"; break;
                 }
 
-                Program.Log(String.Format("Updated election status {0}", status))
+                Program.Log(String.Format("Updated election status {0}", status));
 
                 if (!initialized) {
                     // Loads the booth name during initialization
@@ -72,8 +95,10 @@ namespace NTUOSC.Vote
                 }
 
                 // Loads booth status
-                foreach (JProperty item in entity["booths"].Properties()) {
-                    BoothPanel panel = boothPanels[(int)item.Key - 1];
+                JObject boothStatus = (JObject) entity["booths"];
+                foreach (JProperty item in boothStatus.Properties()) {
+                    int boothId = int.Parse(item.Name);
+                    BoothPanel panel = boothPanels[boothId - 1];
                     switch ((string) item.Value) {
                         case "in_use":
                             panel.State = BoothPanel.States.InUse; break;
@@ -103,7 +128,7 @@ namespace NTUOSC.Vote
                 AuthenticateForm authForm = new AuthenticateForm();
 
                 // Parse and load the reply
-                JObject entity = ApiClient.ParseJson(e.Reply);
+                JObject entity = ApiClient.ParseJson(e.Result);
                 string studentIdWithRev = (string) e.UserState;
 
                 authForm.StudentId = studentIdWithRev.Substring(0, 9);

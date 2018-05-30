@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
@@ -40,9 +42,10 @@ namespace NTUOSC.Vote
                     return;
                 } else {
                     // Allocation succeeded
-                    int boothId = (int) ApiClient.ParseJson(e.Reply)["booth_id"];
+                    int boothId = (int) ApiClient.ParseJson(e.Result)["booth_id"];
                     OnBoothAllocated(boothId);
-                    MessageBox.Show(this, String.Format("請至 {0} 號平板投票。", boothId), "派票成功", MessageBoxIcon.Information);
+                    MessageBox.Show(this, String.Format("請至 {0} 號平板投票。", boothId), "派票成功", 
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             } else OnCancelled();
 

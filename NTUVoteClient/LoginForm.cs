@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
@@ -35,9 +36,9 @@ namespace NTUOSC.Vote
         protected void OnLoginButtonClick(object sender, EventArgs e)
         {
             NameValueCollection values = new NameValueCollection();
-            values['username'] = usernameField.Text;
-            values['password'] = passwordField.Text;
-            apiClient.SendRequestAsync('account/register', values);
+            values["username"] = usernameField.Text;
+            values["password"] = passwordField.Text;
+            apiClient.SendRequestAsync("account/register", values);
         }
 
         protected void OnUploadValuesCompleted(object sender, UploadValuesCompletedEventArgs e)
@@ -51,7 +52,7 @@ namespace NTUOSC.Vote
                     Program.ShowError(this, e.Error, "登入失敗");
             } else {
                 // Parse and load the token
-                string token = (string) ApiClient.ParseJson(e.Reply)["token"];
+                string token = (string) ApiClient.ParseJson(e.Result)["token"];
                 ApiClient.SetToken(token);
 
                 OnLoginSucceeded(null);

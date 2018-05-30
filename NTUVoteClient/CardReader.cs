@@ -17,7 +17,7 @@ namespace NTUOSC.Vote
         public extern static short Request(IntPtr icdev, byte mode, ref ushort tagType);
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, EntryPoint = "dc_anticoll")]
-        public extern static short AntiColl(IntPtr icdev, byte bcnt, ref snr);
+        public extern static short AntiColl(IntPtr icdev, byte bcnt, ref uint snr);
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, EntryPoint = "dc_select")]
         public extern static short Select(IntPtr icdev, uint snr, out byte[] size);
