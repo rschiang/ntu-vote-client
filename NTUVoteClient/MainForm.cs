@@ -16,6 +16,7 @@ namespace NTUOSC.Vote
         private bool initialized = false;
         private ApiClient pingApiClient;
         private ApiClient authApiClient;
+        private BoothPanel[] boothPanels;
 
         public MainForm()
         {
@@ -56,13 +57,31 @@ namespace NTUOSC.Vote
 
                 Program.Log(String.Format("Updated election status {0}", status))
 
-                // TODO: Load booth info
-
-                // Loads the booth name during initialization
                 if (!initialized) {
+                    // Loads the booth name during initialization
                     titleLabel.Text = (string) entity["station"];
                     descriptionLabel.Text = (string) entity["description"];
+
+                    // Iterate through and create booth panels
+                    boothPanels = new BoothPanel[4];
+                    for (int i = 0; i < 4; i++) {
+                        boothPanels[i] = new BoothPanel(boothLayout, i + 1);
+                    }
+
                     initialized = true;
+                }
+
+                // Loads booth status
+                foreach (JProperty item in entity["booths"].Properties()) {
+                    BoothPanel panel = boothPanels[(int)item.Key - 1];
+                    switch ((string) item.Value) {
+                        case "in_use":
+                            panel.State = BoothPanel.States.InUse; break;
+                        case "available":
+                            panel.State = BoothPanel.States.Available; break;
+                        default:
+                            panel.State = BoothPanel.States.Offline; break;
+                    }
                 }
             }
         }
