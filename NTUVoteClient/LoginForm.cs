@@ -44,9 +44,11 @@ namespace NTUOSC.Vote
         {
             if (e.Cancelled) return;
             if (e.Error != null) {
-                Program.Log(e);
-                MessageBox.Show(this, ApiClient.GetErrorMessage(e.Error)), "登入失敗",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ApiError error = ApiClient.ParseError(e.Error);
+                if (error != null)
+                    Program.ShowError(this, "請確認帳號密碼是否正確。（錯誤代碼：{0}）", "登入失敗", error.Code);
+                else
+                    Program.ShowError(this, e.Error, "登入失敗");
             } else {
                 // Parse and load the token
                 string token = (string) ApiClient.ParseJson(e.Reply)["token"];

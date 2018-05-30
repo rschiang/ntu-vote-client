@@ -30,15 +30,19 @@ namespace NTUOSC.Vote
             // Only process the response if we are not closing the dialog.
             if (this.DialogResult != DialogResult.Cancel) {
                 if (e.Error != null) {  // Check if allocation succeeded
-                    Program.Log(e);
-                    MessageBox.Show(this, ApiClient.GetErrorMessage(e.Error)), "派票不成功",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ApiError error = ApiClient.ParseError(e.Error);
+                    if (error != null) {
+                        Program.ShowError(this, "目前所有票亭都在忙碌中。（錯誤代碼：{0}）", "派票不成功", error.Code);
+                    } else {
+                        Program.ShowError(this, e.Error, "派票不成功");
+                    }
                     return;
+                } else {
+                    // Allocation succeeded
+                    int boothId = (int) ApiClient.ParseJson(e.Reply)["booth_id"];
+                    OnBoothAllocated(boothId);
+                    MessageBox.Show(this, String.Format("請至 {0} 號平板投票。", boothId), "派票成功", MessageBoxIcon.Information);
                 }
-
-                // Allocation succeeded
-                int boothId = (int) ApiClient.ParseJson(e.Reply)["booth_id"];
-                OnBoothAllocated(boothId);
             }
 
             this.Close();

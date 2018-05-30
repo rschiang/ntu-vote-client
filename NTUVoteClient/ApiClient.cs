@@ -30,21 +30,26 @@ namespace NTUOSC.Vote
             return JObject.Parse(Encoding.UTF8.GetString(buffer));
         }
 
-        public static void GetErrorMessage(Exception ex)
+        public static ApiError ParseError(Exception ex)
         {
             if (ex is WebException) {
                 WebException webex = (WebException) ex;
                 if (webex.Status == WebExceptionStatus.ProtocolError)
                     try {
                         JObject entity = ParseJson(ex.Response);
-                        string code = (string) entity["code"];
-                        return String.Format("登入失敗。（錯誤代碼：{0}", code);
+
+                        ApiError error = new ApiError();
+                        error.Code = (string) entity["code"];
+                        error.Message = (string) entity["detail"];
+
+                        Program.Log(String.Format("API error {0}\n{1}", error.Code, entity))
+                        return error;
                     } catch {
                         // If it's not JSON, do nothing
                     }
             }
-            // Fallback to default message
-            return String.Format("無法連線到身分驗證系統，請檢查網路連線。\n（{0}）", ex.Message);
+
+            return null;
         }
 
         public ApiClient() : base()
@@ -77,5 +82,11 @@ namespace NTUOSC.Vote
             request.Timeout = 20 * 1000;    // 20 seconds
             return request;
         }
+    }
+
+    internal class ApiError
+    {
+        public string Code { get; set; }
+        public string Message { get; set; }
     }
 }

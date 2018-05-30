@@ -91,9 +91,13 @@ namespace NTUOSC.Vote
             scanButton.Enabled = true;
             if (e.Cancelled) return;
             if (e.Error != null) {
-                Program.Log(e);
-                MessageBox.Show(this, ApiClient.GetErrorMessage(e.Error)), "驗證失敗",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ApiError error = ApiClient.ParseError(e.Error);
+                if (error == null)
+                    Program.ShowError(this, e.Error, "驗證失敗");
+                else {
+                    Program.ShowError(this, "無法完成驗證。（錯誤代碼：{0}）", "驗證失敗", error.Code);
+                }
+
             } else {
                 // Create a new AuthenticateForm
                 AuthenticateForm authForm = new AuthenticateForm();

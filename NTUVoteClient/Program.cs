@@ -36,6 +36,15 @@ namespace NTUOSC.Vote
             }
         }
 
+        public static void ShowError(Form parent, Exception ex, String title) {
+            Log(e.Error);
+            ShowError(parent, "無法連線到身份驗證系統，請檢查網路連線。（{0}）", title, ex.Message);
+        }
+
+        public static void ShowError(Form parent, String message, String title, String arg0) {
+            MessageBox.Show(parent, String.Format(message, arg0), title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
         // Instance methods
 
         LoginForm loginForm;
