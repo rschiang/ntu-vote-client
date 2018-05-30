@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -37,22 +36,25 @@ namespace NTUOSC.Vote
             pingTimer.Tick += OnTimerTick;
             pingTimer.Start();
 
-            pingApiClient.SendRequestAsync("account/booth");
+            SendPingRequest();
         }
 
         protected void OnTimerTick(object sender, EventArgs e)
         {
             pingCounter = (pingCounter + 1) % 5;
-            if (pingCounter == 1) {
-                if (pingApiClient.IsBusy) pingApiClient.CancelAsync();
-                if (networkStatusLabel.Text != "線上")
-                    networkStatusLabel.Text = "正在連線";
-                pingApiClient.SendRequestAsync("account/booth");
-            }
+            if (pingCounter == 1) SendPingRequest();
 
             if (boothPanels != null)
                 foreach (BoothPanel panel in boothPanels)
                     panel.UpdateTimer();
+        }
+
+        protected void SendPingRequest()
+        {
+            if (pingApiClient.IsBusy) pingApiClient.CancelAsync();
+            if (networkStatusLabel.Text != "線上")
+                networkStatusLabel.Text = "正在連線";
+            pingApiClient.SendRequestAsync(initialized ? "account/booth" : "account/booth?initialize=1");
         }
 
         protected void OnPingCompleted(object sender, DownloadDataCompletedEventArgs e)
@@ -179,7 +181,7 @@ namespace NTUOSC.Vote
         {
             // TODO: Scan card
             string internalId = "00000000";
-            string studentId = "B02A01199";
+            string studentId = "R04521618";
             string revision = "1";
 
             NameValueCollection values = new NameValueCollection();

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -15,6 +14,7 @@ namespace NTUOSC.Vote
     {
         public event EventHandler<BoothAllocatedEventArgs> BoothAllocated;
         public event EventHandler Cancelled;
+        private bool isCanceling = false;
         private ApiClient apiClient;
 
         public AuthenticateForm()
@@ -26,12 +26,18 @@ namespace NTUOSC.Vote
 
             confirmButton.Click += OnConfirmButtonClick;
             cancelButton.Click += OnCancelButtonClick;
+            this.FormClosing += OnThisFormClosing;
+        }
+
+        private void OnThisFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!isCanceling) e.Cancel = true;
         }
 
         protected void OnVerifyCompleted(object sender, UploadValuesCompletedEventArgs e)
         {
             // Only process the response if we are not closing the dialog.
-            if (this.DialogResult != DialogResult.Cancel) {
+            if (!isCanceling) {
                 if (e.Error != null) {  // Check if allocation succeeded
                     ApiError error = ApiClient.ParseError(e.Error);
                     if (error != null) {
@@ -39,6 +45,7 @@ namespace NTUOSC.Vote
                     } else {
                         Program.ShowError(this, e.Error, "派票不成功");
                     }
+                    
                     return;
                 } else {
                     // Allocation succeeded
@@ -54,22 +61,23 @@ namespace NTUOSC.Vote
 
         protected void OnConfirmButtonClick(Object sender, EventArgs args)
         {
-            this.DialogResult = DialogResult.OK;
-            NameValueCollection values = new NameValueCollection();
-            values["student_id"] = StudentId;
-            values["session_key"] = SessionKey;
-            apiClient.SendRequestAsync(ApiClient.FormatApiPath("cancel"), values);
+            NameValueCollection values = new NameValueCollection {
+                ["student_id"] = StudentId,
+                ["session_key"] = SessionKey
+            };
+            apiClient.SendRequestAsync(ApiClient.FormatApiPath("allocate"), values);
             confirmButton.Enabled = cancelButton.Enabled = false;
         }
 
         protected void OnCancelButtonClick(Object sender, EventArgs args)
         {
-            this.DialogResult = DialogResult.Cancel;
-            NameValueCollection values = new NameValueCollection();
-            values["student_id"] = StudentId;
-            values["session_key"] = SessionKey;
+            NameValueCollection values = new NameValueCollection {
+                ["student_id"] = StudentId,
+                ["session_key"] = SessionKey
+            };
             apiClient.SendRequestAsync(ApiClient.FormatApiPath("cancel"), values);
             confirmButton.Enabled = cancelButton.Enabled = false;
+            isCanceling = true;
         }
 
         protected void OnBoothAllocated(int boothId)
