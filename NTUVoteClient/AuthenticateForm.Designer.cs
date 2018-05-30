@@ -40,6 +40,8 @@
             this.ballotField = new System.Windows.Forms.Label();
             this.ballotLabel = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
+            this.departmentField = new System.Windows.Forms.Label();
+            this.departmentLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // titleLabel
@@ -119,7 +121,7 @@
             // 
             this.revisionField.AutoSize = true;
             this.revisionField.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.revisionField.Location = new System.Drawing.Point(23, 298);
+            this.revisionField.Location = new System.Drawing.Point(23, 358);
             this.revisionField.Margin = new System.Windows.Forms.Padding(6);
             this.revisionField.Name = "revisionField";
             this.revisionField.Size = new System.Drawing.Size(32, 24);
@@ -130,7 +132,7 @@
             // 
             this.revisionLabel.AutoSize = true;
             this.revisionLabel.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
-            this.revisionLabel.Location = new System.Drawing.Point(24, 276);
+            this.revisionLabel.Location = new System.Drawing.Point(24, 336);
             this.revisionLabel.Name = "revisionLabel";
             this.revisionLabel.Size = new System.Drawing.Size(92, 16);
             this.revisionLabel.TabIndex = 9;
@@ -170,6 +172,27 @@
             this.cancelButton.Text = "取消";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
+            // departmentField
+            // 
+            this.departmentField.AutoSize = true;
+            this.departmentField.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.departmentField.Location = new System.Drawing.Point(23, 298);
+            this.departmentField.Margin = new System.Windows.Forms.Padding(6);
+            this.departmentField.Name = "departmentField";
+            this.departmentField.Size = new System.Drawing.Size(58, 24);
+            this.departmentField.TabIndex = 15;
+            this.departmentField.Text = "H000";
+            // 
+            // departmentLabel
+            // 
+            this.departmentLabel.AutoSize = true;
+            this.departmentLabel.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
+            this.departmentLabel.Location = new System.Drawing.Point(24, 276);
+            this.departmentLabel.Name = "departmentLabel";
+            this.departmentLabel.Size = new System.Drawing.Size(56, 16);
+            this.departmentLabel.TabIndex = 14;
+            this.departmentLabel.Text = "系所代碼";
+            // 
             // AuthenticateForm
             // 
             this.AcceptButton = this.confirmButton;
@@ -179,6 +202,8 @@
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(620, 489);
             this.ControlBox = false;
+            this.Controls.Add(this.departmentField);
+            this.Controls.Add(this.departmentLabel);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.ballotField);
             this.Controls.Add(this.ballotLabel);
@@ -218,5 +243,7 @@
         private System.Windows.Forms.Label ballotField;
         private System.Windows.Forms.Label ballotLabel;
         private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Label departmentField;
+        private System.Windows.Forms.Label departmentLabel;
     }
 }

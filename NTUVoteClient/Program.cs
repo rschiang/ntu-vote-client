@@ -28,6 +28,11 @@ namespace NTUOSC.Vote
             }
         }
 
+        public static void Log(string format, object arg0)
+        {
+            Log(String.Format(format, arg0));
+        }
+
         public static void Log(Exception e) {
             using (StreamWriter writer = File.AppendText(logFilePath)) {
                 writer.WriteLine("{0}: ERROR", DateTime.Now.ToString("u"));

@@ -61,9 +61,7 @@ namespace NTUOSC.Vote
 
         protected virtual void OnLoginSucceeded(EventArgs e)
         {
-            EventHandler handler = LoginSucceeded;
-            if (handler != null)
-                handler(this, e);
+            LoginSucceeded?.Invoke(this, e);
         }
     }
 }

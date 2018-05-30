@@ -84,15 +84,12 @@ namespace NTUOSC.Vote
         {
             EventHandler<BoothAllocatedEventArgs> handler = BoothAllocated;
             BoothAllocatedEventArgs e = new BoothAllocatedEventArgs(StudentId, boothId);
-            if (handler != null)
-                handler(this, e);
+            handler?.Invoke(this, e);
         }
 
         protected void OnCancelled()
         {
-            EventHandler handler = Cancelled;
-            if (handler != null)
-                handler(this, new EventArgs());
+            Cancelled?.Invoke(this, new EventArgs());
         }
 
         public string StudentId
@@ -113,7 +110,11 @@ namespace NTUOSC.Vote
             set { collegeField.Text = value; }
         }
 
-        public string Department { get; set; }
+        public string Department
+        {
+            get { return departmentField.Text; }
+            set { departmentField.Text = value; }
+        }
 
         public string BallotNames
         {

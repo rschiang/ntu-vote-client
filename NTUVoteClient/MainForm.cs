@@ -16,6 +16,7 @@ namespace NTUOSC.Vote
         private bool initialized = false;
         private ApiClient pingApiClient;
         private ApiClient authApiClient;
+        private CardReader cardReader;
         private BoothPanel[] boothPanels;
         private int pingCounter = 0;
 
@@ -35,6 +36,14 @@ namespace NTUOSC.Vote
             pingTimer.Interval -= new Random().Next(100);
             pingTimer.Tick += OnTimerTick;
             pingTimer.Start();
+
+            cardReader = new CardReader();
+            try {
+                cardReader.Initialize();
+            } catch (CardReaderException ex) {
+                MessageBox.Show(this, String.Format("{0}。請檢查讀卡機是否已連接到電腦。", ex.Message), "硬體錯誤",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             SendPingRequest();
         }
@@ -179,18 +188,32 @@ namespace NTUOSC.Vote
 
         protected void OnScanButtonClick(object sender, EventArgs e)
         {
-            // TODO: Scan card
-            string internalId = "00000000";
-            string studentId = "R04521618";
-            string revision = "1";
-
-            NameValueCollection values = new NameValueCollection();
-            values["internal_id"] = internalId;
-            values["student_id"] = studentId;
-            values["revision"] = revision;
-
-            authApiClient.SendRequestAsync(ApiClient.FormatApiPath("authenticate"), values, studentId + revision);
             scanButton.Enabled = false;
+
+            CardData data;
+            try
+            {
+                if (!cardReader.Initialized)
+                    cardReader.Initialize();
+                data = cardReader.ReadCard();
+            }
+            catch (CardReaderException ex)
+            {
+                MessageBox.Show(this, String.Format("{0}。請檢查讀卡機與卡片是否已正確放置。", ex.Message), "硬體錯誤",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                scanButton.Enabled = true;
+                return;
+            }
+
+            NameValueCollection values = new NameValueCollection
+            {
+                ["internal_id"] = data.InternalId,
+                ["student_id"] = data.StudentId,
+                ["revision"] = data.Revision.ToString()
+            };
+
+            string studentIdWithRev = String.Format("{0}{1}", data.StudentId, data.Revision);
+            authApiClient.SendRequestAsync(ApiClient.FormatApiPath("authenticate"), values, studentIdWithRev);
         }
     }
 }
