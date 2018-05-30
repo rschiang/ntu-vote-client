@@ -36,9 +36,9 @@
             this.passwordField = new System.Windows.Forms.TextBox();
             this.loginButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
+            //
             // titleLabel
-            // 
+            //
             this.titleLabel.AutoSize = true;
             this.titleLabel.Font = new System.Drawing.Font("微軟正黑體", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.titleLabel.Location = new System.Drawing.Point(20, 60);
@@ -46,18 +46,18 @@
             this.titleLabel.Size = new System.Drawing.Size(209, 40);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "登入選務系統";
-            // 
+            //
             // hintLabel
-            // 
+            //
             this.hintLabel.AutoSize = true;
             this.hintLabel.Location = new System.Drawing.Point(24, 120);
             this.hintLabel.Name = "hintLabel";
             this.hintLabel.Size = new System.Drawing.Size(188, 16);
             this.hintLabel.TabIndex = 1;
             this.hintLabel.Text = "輸入選務中心配發的帳號與密碼。";
-            // 
+            //
             // usernameLabel
-            // 
+            //
             this.usernameLabel.AutoSize = true;
             this.usernameLabel.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
             this.usernameLabel.Location = new System.Drawing.Point(24, 156);
@@ -65,17 +65,17 @@
             this.usernameLabel.Size = new System.Drawing.Size(68, 16);
             this.usernameLabel.TabIndex = 2;
             this.usernameLabel.Text = "使用者名稱";
-            // 
+            //
             // usernameField
-            // 
+            //
             this.usernameField.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.usernameField.Location = new System.Drawing.Point(27, 180);
             this.usernameField.Name = "usernameField";
             this.usernameField.Size = new System.Drawing.Size(330, 23);
             this.usernameField.TabIndex = 3;
-            // 
+            //
             // passwordLabel
-            // 
+            //
             this.passwordLabel.AutoSize = true;
             this.passwordLabel.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
             this.passwordLabel.Location = new System.Drawing.Point(24, 216);
@@ -83,18 +83,19 @@
             this.passwordLabel.Size = new System.Drawing.Size(32, 16);
             this.passwordLabel.TabIndex = 4;
             this.passwordLabel.Text = "密碼";
-            // 
+            //
             // passwordField
-            // 
+            //
             this.passwordField.Location = new System.Drawing.Point(27, 240);
             this.passwordField.Name = "passwordField";
             this.passwordField.Size = new System.Drawing.Size(330, 23);
             this.passwordField.TabIndex = 5;
             this.passwordField.UseSystemPasswordChar = true;
-            // 
+            //
             // loginButton
-            // 
+            //
             this.loginButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.loginButton.Enabled = false;
             this.loginButton.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold);
             this.loginButton.Location = new System.Drawing.Point(27, 360);
             this.loginButton.Name = "loginButton";
@@ -102,9 +103,9 @@
             this.loginButton.TabIndex = 6;
             this.loginButton.Text = "登入";
             this.loginButton.UseVisualStyleBackColor = true;
-            // 
+            //
             // LoginForm
-            // 
+            //
             this.AcceptButton = this.loginButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -140,4 +141,3 @@
         private System.Windows.Forms.Button loginButton;
     }
 }
-

@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiRequest.cs">
+    <Compile Include="ApiClient.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="AuthenticateForm.cs">
@@ -52,7 +52,7 @@
     <Compile Include="AuthenticateForm.Designer.cs">
       <DependentUpon>AuthenticateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ApiRequest.Private.cs">
+    <Compile Include="ApiClient.Private.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="LoginForm.cs">
