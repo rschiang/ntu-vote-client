@@ -127,6 +127,8 @@ namespace NTUOSC.Vote
             record.Status = String.Format("{0} 號平板", e.BoothId);
             recordLayout.Controls.Add(record);
             recordLayout.Controls.SetChildIndex(record, 0);
+
+            boothPanels[e.BoothId - 1].LastUpdated = DateTime.Now;
         }
 
         protected void OnAuthCancelled(object sender, EventArgs e)
