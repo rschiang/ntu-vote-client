@@ -52,7 +52,16 @@
     <Compile Include="AuthenticateForm.Designer.cs">
       <DependentUpon>AuthenticateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BoothPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BoothPanel.Designer.cs">
+      <DependentUpon>BoothPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="ApiClient.Private.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CardReader.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="LoginForm.cs">
@@ -66,6 +75,12 @@
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RecordPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RecordPanel.Designer.cs">
+      <DependentUpon>RecordPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

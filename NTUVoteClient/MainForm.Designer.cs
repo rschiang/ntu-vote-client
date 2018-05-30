@@ -309,7 +309,7 @@
             // recordEntry
             //
             this.recordEntry.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.recordEntry.Controls.Add(this.label2);
+            this.recordEntry.Controls.Add(this.recordStatusLabel);
             this.recordEntry.Controls.Add(this.recordStudentIdLabel);
             this.recordEntry.Location = new System.Drawing.Point(18, 22);
             this.recordEntry.Name = "recordEntry";
