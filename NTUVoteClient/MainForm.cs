@@ -88,6 +88,7 @@ namespace NTUOSC.Vote
 
         protected void OnAuthCompleted(object sender, UploadValuesCompletedEventArgs e)
         {
+            scanButton.Enabled = true;
             if (e.Cancelled) return;
             if (e.Error != null) {
                 Program.Log(e);
@@ -135,6 +136,7 @@ namespace NTUOSC.Vote
             values["revision"] = revision;
 
             authApiClient.SendRequestAsync(ApiClient.FormatApiPath("authenticate"), values, studentId + revision);
+            scanButton.Enabled = false;
         }
     }
 }

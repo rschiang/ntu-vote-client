@@ -51,19 +51,17 @@ namespace NTUOSC.Vote
                 // Parse and load the token
                 string token = (string) ApiClient.ParseJson(e.Reply)["token"];
                 ApiClient.SetToken(token);
+
                 OnLoginSucceeded(null);
+                this.Close();
             }
         }
 
         protected virtual void OnLoginSucceeded(EventArgs e)
         {
-            // Raise event
             EventHandler handler = LoginSucceeded;
             if (handler != null)
                 handler(this, e);
-
-            // Close the form
-            this.Close();
         }
     }
 }

@@ -39,7 +39,7 @@
             this.revisionLabel = new System.Windows.Forms.Label();
             this.ballotField = new System.Windows.Forms.Label();
             this.ballotLabel = new System.Windows.Forms.Label();
-            this.rejectButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             //
             // titleLabel
@@ -159,16 +159,16 @@
             this.ballotLabel.TabIndex = 11;
             this.ballotLabel.Text = "可投票種";
             //
-            // rejectButton
+            // cancelButton
             //
-            this.rejectButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.rejectButton.Location = new System.Drawing.Point(197, 429);
-            this.rejectButton.Margin = new System.Windows.Forms.Padding(6);
-            this.rejectButton.Name = "rejectButton";
-            this.rejectButton.Size = new System.Drawing.Size(158, 30);
-            this.rejectButton.TabIndex = 13;
-            this.rejectButton.Text = "取消";
-            this.rejectButton.UseVisualStyleBackColor = true;
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.cancelButton.Location = new System.Drawing.Point(197, 429);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(6);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(158, 30);
+            this.cancelButton.TabIndex = 13;
+            this.cancelButton.Text = "取消";
+            this.cancelButton.UseVisualStyleBackColor = true;
             //
             // AuthenticateForm
             //
@@ -176,9 +176,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
-            this.CancelButton = this.rejectButton;
+            this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(620, 489);
-            this.Controls.Add(this.rejectButton);
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.ballotField);
             this.Controls.Add(this.ballotLabel);
             this.Controls.Add(this.revisionField);
@@ -216,6 +216,6 @@
         private System.Windows.Forms.Label revisionLabel;
         private System.Windows.Forms.Label ballotField;
         private System.Windows.Forms.Label ballotLabel;
-        private System.Windows.Forms.Button rejectButton;
+        private System.Windows.Forms.Button cancelButton;
     }
 }
