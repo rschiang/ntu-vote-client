@@ -112,10 +112,31 @@ namespace NTUOSC.Vote
                 authForm.Department = (string) entity["department"];
                 authForm.BallotNames = String.Join("\n", from s in entity["ballots"] select (string) s);
                 authForm.SessionKey = (string) entity["session_key"];
+                authForm.BoothAllocated += OnBoothAllocated;
+                authForm.Cancelled += OnAuthCancelled;
 
                 // Show the form
                 authForm.ShowDialog(this);
             }
+        }
+
+        protected void OnBoothAllocated(object sender, BoothAllocatedEventArgs e)
+        {
+            RecordPanel record = new RecordPanel();
+            record.StudentId = e.StudentId;
+            record.Status = String.Format("{0} 號平板", e.BoothId);
+            recordLayout.Controls.Add(record);
+            recordLayout.Controls.SetChildIndex(record, 0);
+        }
+
+        protected void OnAuthCancelled(object sender, EventArgs e)
+        {
+            AuthenticateForm authForm = (AuthenticateForm) sender;
+            RecordPanel record = new RecordPanel();
+            record.StudentId = authForm.StudentId;
+            record.Status = "取消";
+            recordLayout.Controls.Add(record);
+            recordLayout.Controls.SetChildIndex(record, 0);
         }
 
         protected void OnThisFormClosing(object sender, FormClosingEventArgs e)

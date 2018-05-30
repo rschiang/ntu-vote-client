@@ -12,6 +12,7 @@ namespace NTUOSC.Vote
     public partial class AuthenticateForm : Form
     {
         public event EventHandler<BoothAllocatedEventArgs> BoothAllocated;
+        public event EventHandler Cancelled;
         private ApiClient apiClient;
 
         public AuthenticateForm()
@@ -43,7 +44,7 @@ namespace NTUOSC.Vote
                     OnBoothAllocated(boothId);
                     MessageBox.Show(this, String.Format("請至 {0} 號平板投票。", boothId), "派票成功", MessageBoxIcon.Information);
                 }
-            }
+            } else OnCancelled();
 
             this.Close();
         }
@@ -73,7 +74,14 @@ namespace NTUOSC.Vote
             EventHandler<BoothAllocatedEventArgs> handler = BoothAllocated;
             BoothAllocatedEventArgs e = new BoothAllocatedEventArgs(StudentId, boothId);
             if (handler != null)
-                BoothAllocated(this, e);
+                handler(this, e);
+        }
+
+        protected void OnCancelled()
+        {
+            EventHandler handler = Cancelled;
+            if (handler != null)
+                handler(this, new EventArgs());
         }
 
         public string StudentId
