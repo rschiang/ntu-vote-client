@@ -53,7 +53,7 @@ namespace NTUOSC.Vote
                 return new CardData {
                     InternalId = serial.ToString("x"),
                     StudentId = rawData.Substring(0, 9),
-                    Revision = int.Parse(rawData.Substring(9, 2).Trim())
+                    Revision = int.Parse(rawData.Substring(9, rawData.Length > 10 ? 2 : 1).Trim())
                 };
             } catch {
                 throw new CardReaderException("卡片磁區資料不正確，請聯絡發卡單位");

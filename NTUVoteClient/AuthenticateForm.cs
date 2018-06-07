@@ -26,12 +26,6 @@ namespace NTUOSC.Vote
 
             confirmButton.Click += OnConfirmButtonClick;
             cancelButton.Click += OnCancelButtonClick;
-            this.FormClosing += OnThisFormClosing;
-        }
-
-        private void OnThisFormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!isCanceling) e.Cancel = true;
         }
 
         protected void OnVerifyCompleted(object sender, UploadValuesCompletedEventArgs e)
